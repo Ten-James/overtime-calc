@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "overtime-calc-86dde"
-  }
+  },
+  "targets": {
+    "overtime-calc-86dde": {
+      "hosting": {
+        "main": [
+          "calc-overtime"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
