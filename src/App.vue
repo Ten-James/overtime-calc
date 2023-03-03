@@ -16,6 +16,7 @@ export default {
       arriveTime: '06:00',
       departmentTime: '18:00',
       remainingTime: '10:00',
+      remainingRealTime: '00:00',
       inputTime: '00:00',
       savedTime: 0,
       timeToWrite: "00:00",
@@ -27,6 +28,7 @@ export default {
         return;
       }
       this.wasSet = true;
+      this.remainingRealTime = this.remainingTime;
       this.remainingTime = timeToMinutes(this.remainingTime);
     },
     CalculateTimeBefore() {
@@ -36,6 +38,7 @@ export default {
       const inputMinutes = timeToMinutes(this.inputTime);
       const diff = inputMinutes - ariveMinutes - Math.floor(Math.random()*5);
       this.remainingTime -= diff;
+      this.remainingRealTime = minutesToTime(this.remainingTime);
       this.savedTime = diff;
       this.timeToWrite = minutesToTime(inputMinutes - diff);
       this.inputTime = '00:00'
@@ -48,6 +51,7 @@ export default {
       const inputMinutes = timeToMinutes(this.inputTime);
       const diff = departmentMinutes - inputMinutes - Math.floor(Math.random()*10);
       this.remainingTime -= diff;
+      this.remainingRealTime = minutesToTime(this.remainingTime);
       this.savedTime = diff;
       this.timeToWrite = minutesToTime(inputMinutes + diff);
       this.inputTime = '00:00'
@@ -59,7 +63,7 @@ export default {
 
 <template>
   <div v-if="wasSet">
-    <p>Zbývá nám {{ remainingTime }} minut přesčasu.</p>
+    <p>Zbývá nám {{ remainingRealTime }} přesčasu ({{ remainingTime }} minut).</p>
     <p>Zadejte čas</p>
     <input type="time" v-model="inputTime">
     <p>A je to čas?</p>
@@ -89,11 +93,21 @@ export default {
       <button @click="startTimer">Start</button>
     </div>
   </div>
+  <p
+  class="footer"
+  >by Jakub Indrák 2023</p>
 </template>
 
 <style scoped>
 
 fieldset > * {
+  margin: 0.5rem;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
   margin: 0.5rem;
 }
 </style>
